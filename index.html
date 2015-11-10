@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Site Info -->
+        <meta name="author" content="Saki Uwagawa">
+        <meta name="description" content="Fourth assignment for INFO 343 using the Spotify API">
+
+    	<!-- Include libraries -->
+		<script src="https://code.jquery.com/jquery.min.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+		<!-- Access to local files -->
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/main.js"></script>
+
+        <title>Spotify App Title Goes Here</title>
+        <link rel="icon" href="img/headphone4.png">
+    </head>
+
+    <body>
+        <header>
+    		<div class="container">
+    			<h1>Explore New Music</h1>
+    		</div>
+    	</header>
+
+        <!-- Initialize myApp & myCtrl -->
+    	<div ng-app="myApp" ng-controller="myCtrl">
+            <!-- Form -->
+    		<form role="form" class="container" name="songForm">
+    			<div class="form-group">
+    				<input name="search" ng-model="track" class="form-control" placeholder="Enter your keyword to explore..." required>
+                </div>
+                <div class="form-group center-div">
+    				<button ng-disabled="songForm.search.$invalid" ng-click="getSongs()" type="submit" class="btn btn-sm btn-outline">
+                        <i class="fa fa-search"></i>Search
+                    </button>
+    			</div>
+    		</form>
+
+            <!-- Overlay -->
+            <div class="overlay"></div>
+            <div class="window">
+                <h3>{{artist.name}}</h3>
+                <div id="topTrackPlayer" class="col-sm-6">
+                    <h5>Listen to {{artist.name}}'s Top Track</h5>
+                    <button class="btn btn-xs btn-outline inline" display="inline-block" id="playBtnWin" ng-click="play(topTrack.preview_url)"><i class="fa fa-play"></i></button>
+                    <h5 class="inline">{{topTrack.name}}</h5>
+                </div>
+                <div id="img" class="col-sm-6"></div>
+            </div>
+
+            <!-- Results -->
+            <div class="container-fluid">
+                <div class="help-block">
+                    <span ng-show="tracks.length>0">Click to sample</span>
+                    <span ng-show="currentSong && !audioObject.paused">(<i class="fa fa-music"></i> playing)</span>
+                </div>
+                <ul class="list-group">
+                    <li ng-repeat="track in tracks" class="list-group-item">
+                        <button class="btn btn-xs btn-outline" display="inline-block" id="playBtn" ng-click="play(track.preview_url)"><i class="fa fa-play"></i></button>
+                        <h4>{{track.name}}</h4>
+                        <p class="list-body">
+                            <a href="#" ng-click="windowOn(track)">
+                                {{track.artists[0].name}}
+                            </a>
+                        </p>
+                    </li>
+                </ul>          
+            </div>
+
+    	</div>
+    </body>
+</html>
